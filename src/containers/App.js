@@ -4,6 +4,7 @@ import SearchBox from '../components/SearchBox';
 import './App.css';
 import Scroll from '../components/Scroll';
 import ErrorBoundary from '../components/ErrorBoundary';
+import {buddies} from './buddies';
 
 
 
@@ -11,7 +12,7 @@ import ErrorBoundary from '../components/ErrorBoundary';
  	constructor(){
  			super();
  			this.state = {
-				robots : [],
+				buddies : buddies,
 				searchField: ''
 				};
  	}
@@ -21,27 +22,22 @@ onChangeFunction=(event)=>{
 	this.setState({searchField: event.target.value});
 }
 
-componentDidMount(){
-   fetch('https://jsonplaceholder.typicode.com/users')
-   .then(response=>response.json())
-   .then(user=>this.setState({robots:user}));
 
-}
 
  	render(){
- 		const {robots, searchField} = this.state;
- 		const filterRobot = robots.filter(robo => {
-		return robo.name.toLowerCase().includes(searchField.toLowerCase());
+ 		const filterbuddy = this.state.buddies.filter(budy => {
+		return budy.name.toLowerCase().includes(this.state.searchField.toLowerCase());
            });
- 		return !robots.length?
+
+ 		return !this.state.buddies.length?
  			<h1>Loading</h1>:
  			(
 			<div className='tc'>
-				<h1 className='f1'>Robofriends</h1>
+				<h1 className='f1'>Buddies</h1>
 				<SearchBox changefunction={this.onChangeFunction}/>
 				<Scroll>
 				  <ErrorBoundary>
-						<CardList robot={filterRobot} />
+						<CardList robot={filterbuddy} />
 				  </ErrorBoundary>
 				</Scroll>
 			</div>
